@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Etherscan</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+</head>
+
+<body onload="getETHPrice()">
+
+  <main class="main flow">
+    <div class="heading-container">
+    <img src="IMG/OP.png" class="network-img1" onclick="showPopup()">
+    <img src="IMG/OP.png" class="network-img2">
+    <h1 class="main__heading">Etherscan</h1>
+</div>
+        <div class="main__cards cards">
+      <div class="cards__inner">
+        <div class="cards__card card">
+            <select class="filter-1 card__cta cta">
+                <option selected disabled>Please Select</option>
+                <option>By Address</option>
+                <option>By Txn Hash</option>
+            </select>
+            <select class="filter-2 card__cta cta">
+                <option selected disabled>Please Select</option>
+                <option>Internal Txn</option>
+                <option>ERC-20 Txn</option>
+                <option>ERC-721 Txn</option>
+                <option>ERC-1155 Txn</option>
+            </select>
+            <input class="address cta" type="text" placeholder="Your Ethereum Address" maxlength="42" value="">
+          <p class="card__price"></p>
+
+          </ul>
+          <a class="search card__cta cta" onclick="runQuery()">Search</a>
+        </div>
+      </div>
+
+      <div class="overlay cards__inner"></div>
+    </div>
+    <div class="price-container">
+        <h5 class="eth-price">ETH Price: $</h2>
+            <div class="loader"></div>
+            <button class="refresh-price" onclick="getETHPrice()"><i class="fa fa-repeat" aria-hidden="true"></i></button>
+    </div>
+  </main>
+
+<img class="loading" src="IMG/Loading.GIF">
+  <div class="results cards__card card">
+    <h1>Result</h1></br></br>
+    <h2 class="r1"></h2>
+  </div>
+
+<div class="pop-up">
+    <h1 style="text-align: center; margin-bottom: 20px;">Select Network</h1>
+    <button class="close-popup" onclick="closePopup(0)">✖</button>
+    <img class="network-img" id="1" src="IMG/Arb.png" onclick="closePopup(1),changeHSL(1)">
+    <img class="network-img" id="2" src="IMG/OP.png" onclick="closePopup(2),changeHSL(2)">
+    <img class="network-img" id="3" src="IMG/Matic.png" onclick="closePopup(3),changeHSL(3)">
+    <img class="network-img" id="4" src="IMG/zksync.png" onclick="closePopup(4),changeHSL(4)">
+    <img class="network-img" id="5" src="IMG/Eth.png" onclick="closePopup(5),changeHSL(5)">
+    <img class="network-img" id="6" src="IMG/linea.png" onclick="closePopup(6),changeHSL(6)">
+</div>
+
+
+
+  <script src="app.js"></script>
+</body>
+
+</html>

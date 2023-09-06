@@ -75,21 +75,21 @@ let cointicker = " ETH";
 
 
 function getETHPrice(){
-  priceLoader.style.display = 'block';
-  refershPrice.style.display = 'none';
+  priceLoader.style.visibility = "visible";
+  refershPrice.style.visibility = "hidden";
 const ethURL = 'https://api.etherscan.io/api?module=stats&action=ethprice'
 fetch(ethURL)
 .then(response=>response.json())
 .then((data2)=>{
   ethPrice.innerHTML += (data2.result.ethusd);
-  priceLoader.style.display = 'none';})
-  .catch((error)=>{console.log('Error getting ETH Price.',error); ethPrice.innerHTML = "ETH Price: $ â ";priceLoader.style.display = 'none';refershPrice.style.display = 'block';});
+  priceLoader.style.visibility = "hidden";})
+  .catch((error)=>{console.log('Error getting ETH Price.',error); ethPrice.innerHTML = "ETH Price: $ â ";priceLoader.style.visibility = "hidden";refershPrice.style.visibility = "visible";});
 
 }
 
 function runQuery() {
   console.clear();
-  loading.style.display = "block";
+  loading.style.visibility = "visible";
 if (address.value!=""){
   setTimeout(function(){
     if (filter1.value!="Please Select"){
@@ -105,43 +105,43 @@ if (address.value!=""){
           ];
           
           fetch(Object.values(network[currentNetwork])).then(response=>response.json()).then(data=>{if(!isNaN(data.result)){balance.innerHTML=((data.result)/Math.pow(10,18)*1).toFixed(5) + cointicker}else{balance.innerHTML = data.result}}).catch(error=>balance.innerHTML = error);
-          results.style.display = "block";
-          loading.style.display = "none";
+          results.style.visibility = "visible";
+          loading.style.visibility = "hidden";
           usdValue.innerHTML = (balance.innerHTML.replace(' ETH',''))*(ethPrice.innerHTML.replace('ETH Price: $',''));
         } else {
-          loading.style.display = "none";
+          loading.style.visibility = "hidden";
           alert("Invalid or Incomplete address!");
         }}
         else{
-          loading.style.display = "none";
+          loading.style.visibility = "hidden";
           alert("Please select txn type!");
       }}
       else {
-        loading.style.display = "none";
+        loading.style.visibility = "hidden";
         alert("Please select search method!");
     }
   },3000)
 } else {
   alert("Address can't be Empty!");
-  loading.style.display = "none";
+  loading.style.visibility = "hidden";
 }}
 
 
 
 function closePopup(e){
   console.clear();
-  networkImg1.disabled = "false"
+  networkImg1.disabled = "false";
   networkImg1.style.opacity = 1;
     if(e!=0){
         currentNetwork = e;
         currentNetwork = e;
         networkImg1.src = Object.values(networksImages[e]);
         networkImg2.src = Object.values(networksImages[e]);
-        popUpContainer.style.display = 'none';
-        results.style.display = 'none'
+        popUpContainer.style.visibility = "hidden";
+        results.style.visibility = "hidden";
         usdValue.innerHTML = 0;
     }else {
-        popUpContainer.style.display = 'none';
+        popUpContainer.style.visibility = "hidden";
     }    
     if(e==3){
         cointicker = " MATIC";
@@ -150,8 +150,7 @@ function closePopup(e){
     }
 }
 function showPopup(){
-        popUpContainer.style.display = 'block';
-        popUp.style.display = 'block';
+        popUpContainer.style.visibility = "visible";
         networkImg1.disabled = "true"
 }
 

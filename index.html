@@ -13,8 +13,8 @@
 
   <main class="main flow">
     <div class="heading-container">
-    <img src="IMG/OP.png" class="network-img1" onclick="showPopup()">
-    <img src="IMG/OP.png" class="network-img2">
+    <img src="IMG/Eth.png" class="network-img1" onclick="showPopup()">
+    <img src="IMG/Eth.png" class="network-img2" onclick="showPopup()">
     <h1 class="main__heading">Etherscan</h1>
 </div>
         <div class="main__cards cards">
@@ -52,20 +52,22 @@
 <img class="loading" src="IMG/Loading.GIF">
   <div class="results cards__card card">
     <h1>Result</h1></br></br>
-    <h2 class="r1"></h2>
+    <h2 class="balance">0</h2>
+    <h2 class="usdValue">0</h2>
   </div>
 
+<div class="pop-up-container">
 <div class="pop-up">
     <h1 style="text-align: center; margin-bottom: 20px;">Select Network</h1>
     <button class="close-popup" onclick="closePopup(0)">✖</button>
-    <img class="network-img" id="1" src="IMG/Arb.png" onclick="closePopup(1),changeHSL(1)">
+    <img class="network-img" id="1" src="IMG/Eth.png" onclick="closePopup(1),changeHSL(1)">
     <img class="network-img" id="2" src="IMG/OP.png" onclick="closePopup(2),changeHSL(2)">
     <img class="network-img" id="3" src="IMG/Matic.png" onclick="closePopup(3),changeHSL(3)">
     <img class="network-img" id="4" src="IMG/zksync.png" onclick="closePopup(4),changeHSL(4)">
-    <img class="network-img" id="5" src="IMG/Eth.png" onclick="closePopup(5),changeHSL(5)">
+    <img class="network-img" id="5" src="IMG/Arb.png" onclick="closePopup(5),changeHSL(5)">
     <img class="network-img" id="6" src="IMG/linea.png" onclick="closePopup(6),changeHSL(6)">
 </div>
-
+</div>
 
 
   <script src="app.js"></script>

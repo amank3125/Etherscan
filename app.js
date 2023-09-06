@@ -137,11 +137,13 @@ function closePopup(e){
         currentNetwork = e;
         networkImg1.src = Object.values(networksImages[e]);
         networkImg2.src = Object.values(networksImages[e]);
-        popUpContainer.style.visibility = "hidden";
-        results.style.visibility = "hidden";
+        popUpContainer.classList.toggle('closed');
+        popUp.classList.toggle('closed');
+        results.classList.toggle('closed');
         usdValue.innerHTML = 0;
     }else {
-        popUpContainer.style.visibility = "hidden";
+        popUpContainer.classList.toggle('closed');
+        popUp.classList.toggle('closed');
     }    
     if(e==3){
         cointicker = " MATIC";
@@ -150,7 +152,8 @@ function closePopup(e){
     }
 }
 function showPopup(){
-        popUpContainer.style.visibility = "visible";
+        popUpContainer.classList.toggle('closed');
+        popUp.classList.toggle('closed');
         networkImg1.disabled = "true"
 }
 

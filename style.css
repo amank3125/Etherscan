@@ -305,3 +305,9 @@ ul {
     cursor: pointer;
     display: none;
 }
+.closed {
+  display: none;
+}
+.shown {
+  display: block;
+}

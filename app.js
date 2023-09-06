@@ -87,7 +87,7 @@ fetch(ethURL)
 
 }
 
-function runQuery() {
+function runQuery() { //This is the main function that fetches ERC address ETH balance form blockchain
   console.clear();
   loading.style.visibility = "visible";
 if (address.value!=""){
@@ -124,7 +124,7 @@ if (address.value!=""){
 } else {
   alert("Address can't be Empty!");
   loading.style.visibility = "hidden";
-}}
+}}; // Main function ends
 
 
 

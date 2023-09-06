@@ -50,7 +50,7 @@ ul {
     border-radius: 50%;
     z-index: 2;
     cursor: pointer;
-    opacity: 0;
+    opacity: 1;
 }
 .network-img2 {
     position: absolute;
@@ -73,6 +73,7 @@ ul {
     border-radius: 50%;
     transition: 0.3s ease-in-out all;
     padding: 5px;
+    cursor: pointer;
 }
 .network-img:hover{
     transform: scale(1.15);
@@ -248,21 +249,20 @@ ul {
 }
 .results {
   display: flex;
+  flex-direction: column;
   width: 90%;
   height: auto;
   border: 1px solid #eceff133;
   border-radius: 15px;
   padding: 20px;
-  text-align: center;
   justify-content: center;
-  display: none;
+  align-items: center;
 }
 .search {
   cursor:pointer;
 }
 .loading {
   height: 128px;
-  display: none;
 }
 .price-container {
     display: flex;

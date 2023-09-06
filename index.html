@@ -45,20 +45,20 @@
     </div>
     <div class="price-container">
         <h5 class="eth-price">ETH Price: $</h2>
-            <div class="loader"></div>
-            <button class="refresh-price" onclick="getETHPrice()"><i class="fa fa-repeat" aria-hidden="true"></i></button>
+            <div class="loader closed"></div>
+            <button class="refresh-price closed" onclick="getETHPrice()"><i class="fa fa-repeat" aria-hidden="true"></i></button>
     </div>
   </main>
 
-<img class="loading" src="IMG/Loading.GIF">
-  <div class="results cards__card card">
+<img class="loading closed" src="IMG/Loading.GIF">
+  <div class="results cards__card card closed">
     <h1>Result</h1></br></br>
     <h2 class="balance">0</h2>
     <h2 class="usdValue">0</h2>
   </div>
 
-<div class="pop-up-container">
-<div class="pop-up">
+<div class="pop-up-container closed">
+<div class="pop-up closed">
     <h1 style="text-align: center; margin-bottom: 20px;">Select Network</h1>
     <button class="close-popup" onclick="closePopup(0)">✖</button>
     <img class="network-img" id="1" src="IMG/Eth.png" onclick="closePopup(1),changeHSL(1)">

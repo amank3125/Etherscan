@@ -54,9 +54,9 @@ document.body.addEventListener("pointermove", applyOverlayMask);
 let currentNetwork = 1;
 const address = document.querySelector('.address');
 let networksImages = [{},{1:"/IMG/Eth.png"},{2:"/IMG/OP.png"},{3:"/IMG/Matic.png"},{4:"/IMG/zksync.png"},{5:"/IMG/Arb.png"},{6:"/IMG/linea.png"}];
-let hue = [{},{1:204},{2:353},{3:262},{4:0},{5:0},{6:0}];
-let saturation = [{},{1:'87%'},{2:'100%'},{3:'71%'},{4:0},{5:0},{6:0}];
-let lightness = [{},{1:'55%'},{2:'51%'},{3:'58%'},{4:'95%'},{5:'67%'},{6:'100%'}];
+let hue = [{},{1:0},{2:353},{3:262},{4:0},{5:204},{6:0}];
+let saturation = [{},{1:'0'},{2:'100%'},{3:'75%'},{4:0},{5:'87%'},{6:0}];
+let lightness = [{},{1:'67%'},{2:'51%'},{3:'59%'},{4:'95%'},{5:'55%'},{6:'0%'}];
 
 let filter1 = document.querySelector('.filter-1');
 let filter2 = document.querySelector('.filter-2');
@@ -71,76 +71,86 @@ let popUp = document.querySelector('.pop-up');
 let popUpContainer = document.querySelector('.pop-up-container');
 let balance = document.querySelector('.balance');
 let usdValue = document.querySelector('.usdValue');
+let mainHeading = document.querySelector('.main__heading');
 let cointicker = " ETH";
-
+var network;
 
 function getETHPrice(){
-  priceLoader.style.visibility = "visible";
-  refershPrice.style.visibility = "hidden";
+  priceLoader.classList.toggle('closed');
+  refershPrice.classList.toggle('closed');
 const ethURL = 'https://api.etherscan.io/api?module=stats&action=ethprice'
 fetch(ethURL)
 .then(response=>response.json())
-.then((data2)=>{
-  ethPrice.innerHTML += (data2.result.ethusd);
-  priceLoader.style.visibility = "hidden";})
-  .catch((error)=>{console.log('Error getting ETH Price.',error); ethPrice.innerHTML = "ETH Price: $ â ";priceLoader.style.visibility = "hidden";refershPrice.style.visibility = "visible";});
+.then((data2)=>{ if(data2.result.ethusd!=undefined){
+  ethPrice.innerHTML = 'ETH Price: $'+(data2.result.ethusd);
+  priceLoader.classList.toggle('closed');}else {"ETH Price: $ ⚠";priceLoader.classList.toggle('closed');refershPrice.classList.toggle('closed');}})
+  .catch((error)=>{console.log('Error getting ETH Price.',error);ethPrice.innerHTML = "ETH Price: $ ⚠";priceLoader.classList.toggle('closed');refershPrice.classList.toggle('closed');});
 
 }
 
 function runQuery() { //This is the main function that fetches ERC address ETH balance form blockchain
-  console.clear();
-  loading.style.visibility = "visible";
+  // console.clear();
+  loading.classList.toggle('closed');
+  console.log('toggle');
 if (address.value!=""){
   setTimeout(function(){
     if (filter1.value!="Please Select"){
       if (filter2.value!="Please Select"){
-        if (address.value.slice(0,2)=="0x"&&address.value.length==42){
-          let network = [{},
-            { eth:`https://api.etherscan.io/api?module=account&action=balance&address=${address.value}&tag=latest&apikey=${apiKeyETH}`},
-            { op:`https://api-optimistic.etherscan.io/api?module=account&action=balance&address=${address.value}&tag=latest&apikey=${apiKeyOP}`},
-            { matic:`https://api.polygonscan.com/api?module=account&action=balance&address=${address.value}&apikey=${apiKeyMatic}`},
-            { zksync:``},
-            { arb:`https://api.arbiscan.io/api?module=account&action=balance&address=${address.value}&tag=latest&apikey=${apiKeyArb}`},
-            { linea:`https://api.lineascan.build/api?module=account&action=balance&address=${address.value}&apikey=${apiKeyLinea}`}
-          ];
-          
+        if (address.value.slice(0,2)=="0x"&&address.value.length==42){  
+          network = [{},
+            { Etherscan:`https://api.etherscan.io/api?module=account&action=balance&address=${address.value}&tag=latest&apikey=${apiKeyETH}`},
+            { 'Optimism Scan':`https://api-optimistic.etherscan.io/api?module=account&action=balance&address=${address.value}&tag=latest&apikey=${apiKeyOP}`},
+            { 'Matic Scan':`https://api.polygonscan.com/api?module=account&action=balance&address=${address.value}&apikey=${apiKeyMatic}`},
+            { 'ZkSync Scan':``},
+            { Arbscan:`https://api.arbiscan.io/api?module=account&action=balance&address=${address.value}&tag=latest&apikey=${apiKeyArb}`},
+            { 'Linea Scan':`https://api.lineascan.build/api?module=account&action=balance&address=${address.value}&apikey=${apiKeyLinea}`}
+          ];    
           fetch(Object.values(network[currentNetwork])).then(response=>response.json()).then(data=>{if(!isNaN(data.result)){balance.innerHTML=((data.result)/Math.pow(10,18)*1).toFixed(5) + cointicker}else{balance.innerHTML = data.result}}).catch(error=>balance.innerHTML = error);
-          results.style.visibility = "visible";
-          loading.style.visibility = "hidden";
+          results.classList.toggle('closed');
+          loading.classList.toggle('closed');
           usdValue.innerHTML = (balance.innerHTML.replace(' ETH',''))*(ethPrice.innerHTML.replace('ETH Price: $',''));
         } else {
-          loading.style.visibility = "hidden";
+          loading.classList.toggle('closed');
           alert("Invalid or Incomplete address!");
         }}
         else{
-          loading.style.visibility = "hidden";
+          loading.classList.toggle('closed');
           alert("Please select txn type!");
       }}
       else {
-        loading.style.visibility = "hidden";
+        loading.classList.toggle('closed');
         alert("Please select search method!");
     }
   },3000)
 } else {
   alert("Address can't be Empty!");
-  loading.style.visibility = "hidden";
+  loading.classList.toggle('closed');
 }}; // Main function ends
 
 
 
 function closePopup(e){
   console.clear();
-  networkImg1.disabled = "false";
+  networkImg1.classList.toggle('closed');
   networkImg1.style.opacity = 1;
     if(e!=0){
+      network = [{},
+        { Etherscan:`https://api.etherscan.io/api?module=account&action=balance&address=${address.value}&tag=latest&apikey=${apiKeyETH}`},
+        { 'Optimism Scan':`https://api-optimistic.etherscan.io/api?module=account&action=balance&address=${address.value}&tag=latest&apikey=${apiKeyOP}`},
+        { 'Matic Scan':`https://api.polygonscan.com/api?module=account&action=balance&address=${address.value}&apikey=${apiKeyMatic}`},
+        { 'ZkSync Scan':``},
+        { Arbscan:`https://api.arbiscan.io/api?module=account&action=balance&address=${address.value}&tag=latest&apikey=${apiKeyArb}`},
+        { 'Linea Scan':`https://api.lineascan.build/api?module=account&action=balance&address=${address.value}&apikey=${apiKeyLinea}`}
+      ];
         currentNetwork = e;
         currentNetwork = e;
         networkImg1.src = Object.values(networksImages[e]);
         networkImg2.src = Object.values(networksImages[e]);
         popUpContainer.classList.toggle('closed');
         popUp.classList.toggle('closed');
-        results.classList.toggle('closed');
         usdValue.innerHTML = 0;
+        mainHeading.innerHTML = Object.keys(network[e]);
+        getETHPrice();
     }else {
         popUpContainer.classList.toggle('closed');
         popUp.classList.toggle('closed');
@@ -154,7 +164,7 @@ function closePopup(e){
 function showPopup(){
         popUpContainer.classList.toggle('closed');
         popUp.classList.toggle('closed');
-        networkImg1.disabled = "true"
+        networkImg1.classList.toggle('closed');
 }
 
 // Modify CSS with JS

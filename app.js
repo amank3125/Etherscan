@@ -93,10 +93,10 @@ function runQuery() { //This is the main function that fetches ERC address ETH b
   loading.classList.toggle('closed');
   console.log('toggle');
 if (address.value!=""){
+  if (filter1.value!="Please Select"){
+    if (filter2.value!="Please Select"){
+      if (address.value.slice(0,2)=="0x"&&address.value.length==42){  
   setTimeout(function(){
-    if (filter1.value!="Please Select"){
-      if (filter2.value!="Please Select"){
-        if (address.value.slice(0,2)=="0x"&&address.value.length==42){  
           network = [{},
             { Etherscan:`https://api.etherscan.io/api?module=account&action=balance&address=${address.value}&tag=latest&apikey=${apiKeyETH}`},
             { 'Optimism Scan':`https://api-optimistic.etherscan.io/api?module=account&action=balance&address=${address.value}&tag=latest&apikey=${apiKeyOP}`},
@@ -109,7 +109,7 @@ if (address.value!=""){
           results.classList.toggle('closed');
           loading.classList.toggle('closed');
           usdValue.innerHTML = (balance.innerHTML.replace(' ETH',''))*(ethPrice.innerHTML.replace('ETH Price: $',''));
-        } else {
+        },3000)} else {
           loading.classList.toggle('closed');
           alert("Invalid or Incomplete address!");
         }}
@@ -121,7 +121,6 @@ if (address.value!=""){
         loading.classList.toggle('closed');
         alert("Please select search method!");
     }
-  },3000)
 } else {
   alert("Address can't be Empty!");
   loading.classList.toggle('closed');
@@ -160,12 +159,12 @@ function closePopup(e){
     } else {
         cointicker = " ETH";
     }
-}
+};
 function showPopup(){
         popUpContainer.classList.toggle('closed');
         popUp.classList.toggle('closed');
         networkImg1.classList.toggle('closed');
-}
+};
 
 // Modify CSS with JS
 
@@ -178,7 +177,7 @@ function changeHSL(e) {
     r.style.setProperty('--hue',Object.values(hue[e]));
     r.style.setProperty('--saturation',Object.values(saturation[e]));
     r.style.setProperty('--lightness',Object.values(lightness[e]));
-}
+};
 
 function testZksync(){
     fetch(`https://www.oklink.com/api/v5/explorer/address/information-evm?chainShortName=eth&address=${address.value}`, {

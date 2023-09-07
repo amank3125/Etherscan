@@ -16,6 +16,7 @@ body {
 }
 
 body {
+  aspect-ratio:16/9 auto;
   display: grid;
   place-items: center;
   font-family: "League Spartan", system-ui, sans-serif;

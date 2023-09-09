@@ -62,6 +62,7 @@ let filter1 = document.querySelector('.filter-1');
 let filter2 = document.querySelector('.filter-2');
 let results = document.querySelector('.results');
 let loading = document.querySelector('.loading');
+let balanceLoader = document.querySelector('.balance-loader');
 let ethPrice = document.querySelector('.eth-price');
 let priceLoader = document.querySelector('.loader');
 let refershPrice = document.querySelector('.refresh-price');
@@ -72,8 +73,10 @@ let popUpContainer = document.querySelector('.pop-up-container');
 let balance = document.querySelector('.balance');
 let usdValue = document.querySelector('.usdValue');
 let mainHeading = document.querySelector('.main__heading');
+let statement = document.querySelector('.statement');
 let cointicker = " ETH";
 var network;
+let counter = 0;
 
 function getETHPrice(){
   priceLoader.classList.toggle('closed');
@@ -88,16 +91,34 @@ fetch(ethURL)
 
 }
 
-function runQuery() { //This is the main function that fetches ERC address ETH balance form blockchain
-  // console.clear();
+function whatToDo(){
+      if(filter2.value=='Balance'){
+        getBalanceOf();
+      } else if(filter2.value=='Internal Txn'){
+        getTransactionsOf();
+      } else if(filter2.value=='ERC-20 Txn'){
+        alert('ERC-20 Txn Search is Coming Soon 😴');
+      } else if(filter2.value=='ERC-1155 Txn'){
+        alert('ERC-1155 Txn Search Coming Soon 😴');
+      } else if(filter2.value=='ERC-721 Txn'){
+        alert('ERC-721 Txn Search Coming Soon 😴');
+      }
+}
+
+
+function getBalanceOf() { //This is the main function that fetches ERC address ETH balance form blockchain
+  console.clear();
+  balance.innerHTML=0;
   loading.classList.toggle('closed');
-  console.log('toggle');
+  balance.classList.toggle('closed');
 if (address.value!=""){
   if (filter1.value!="Please Select"){
     if (filter2.value!="Please Select"){
       if (address.value.slice(0,2)=="0x"&&address.value.length==42){  
+        if(balance.innerHTML==0){balanceLoader.classList.remove('closed');} else {balanceLoader.classList.add('closed');}
   setTimeout(function(){
-          network = [{},
+
+      network = [{},
             { Etherscan:`https://api.etherscan.io/api?module=account&action=balance&address=${address.value}&tag=latest&apikey=${apiKeyETH}`},
             { 'Optimism Scan':`https://api-optimistic.etherscan.io/api?module=account&action=balance&address=${address.value}&tag=latest&apikey=${apiKeyOP}`},
             { 'Matic Scan':`https://api.polygonscan.com/api?module=account&action=balance&address=${address.value}&apikey=${apiKeyMatic}`},
@@ -106,9 +127,15 @@ if (address.value!=""){
             { 'Linea Scan':`https://api.lineascan.build/api?module=account&action=balance&address=${address.value}&apikey=${apiKeyLinea}`}
           ];    
           fetch(Object.values(network[currentNetwork])).then(response=>response.json()).then(data=>{if(!isNaN(data.result)){balance.innerHTML=((data.result)/Math.pow(10,18)*1).toFixed(5) + cointicker}else{balance.innerHTML = data.result}}).catch(error=>balance.innerHTML = error);
-          results.classList.toggle('closed');
+          if (counter==0){results.classList.toggle('closed');}
+          counter = 1;
+          balance.classList.toggle('closed');
           loading.classList.toggle('closed');
-          usdValue.innerHTML = (balance.innerHTML.replace(' ETH',''))*(ethPrice.innerHTML.replace('ETH Price: $',''));
+          if(balance.innerHTML==0){balanceLoader.classList.remove('closed');} else {balanceLoader.classList.add('closed');}
+          setTimeout(function(){
+            balanceLoader.classList.toggle('closed');
+          },100)
+          // usdValue.innerHTML = (balance.innerHTML.replace(' ETH',''))*(ethPrice.innerHTML.replace('ETH Price: $',''));
         },3000)} else {
           loading.classList.toggle('closed');
           alert("Invalid or Incomplete address!");
@@ -188,3 +215,83 @@ function testZksync(){
   })
     .then(response=>response.json()).then(data=>console.log(data.data[0].balance)).catch(error=>console.log(error));
 };
+
+function getTransactionsOf(){
+  console.clear();
+  balance.innerHTML=0;
+  balance.classList.toggle('closed');
+  loading.classList.toggle('closed');
+  if (address.value!=""){
+    if (filter1.value!="Please Select"){
+      if (filter2.value!="Please Select"){
+        if (address.value.slice(0,2)=="0x"&&address.value.length==42){  
+          if(balance.innerHTML==0){balanceLoader.classList.remove('closed');} else {balanceLoader.classList.add('closed');}
+    setTimeout(function(){
+      fetch(`https://api.etherscan.io/api?module=account&action=txlist&address=${address.value}&startblock=0&endblock=99999999&page=1&offset=1000&sort=desc&apikey=${apiKeyETH}`)
+      .then(response=> response.json())
+      .then(data=>{
+    results.classList.add('show');
+    statement.classList.add('show');
+    loading.classList.toggle('show');
+    setTimeout(function(){
+      balanceLoader.classList.toggle('closed');
+    },100);
+
+  let transactions = data.result;
+  let txnTime = [];
+  let txnHash = [];
+  let txnFrom = [];
+  let txnTo = [];
+  let txnValue = [];
+  Object.values(transactions).forEach((txns)=>{
+    txnTime.push(txns.timeStamp);
+    txnHash.push(txns.hash);
+    txnFrom.push(txns.from);
+    txnTo.push(txns.to);
+    txnValue.push((txns.value/Math.pow(10,18)).toFixed(3));
+    let spanTime = document.querySelector('.txnTimeList');
+    let spanHash = document.querySelector('.txnHashList');
+    let spanFrom = document.querySelector('.txnFromList');
+    let spanTo = document.querySelector('.txnToList');
+    let spanValue = document.querySelector('.txnValueList');
+    let spanViewMore = document.querySelector('.txnViewMoreList');
+    console.log(txnTime);
+    // var timestamp = data.result[0].timeStamp;
+    // var datetime = new Date(timestamp*1000);
+    for(i=0;i<5;i++){
+      if(txnTime[i]==undefined){
+        continue;
+      }
+      var datetime = new Date(txnTime[i]*1000);
+      let t = `<p class="txnTime truncate w10 tleft">${datetime.toDateString()+" "+datetime.toLocaleTimeString()}</p>`;
+      let h = `<p class="txnHash truncate w25">${txnHash[i]}</p>`;
+      let vm = `<button class="view-moreBtn"><a class="view-moreBtn-label" href="https://etherscan.io/tx/${txnHash[i]}" target="_blank">View</a></button>`;
+      let f = `<p class="txnFrom truncate w15">${txnFrom[i]}</p>`;
+      let to = `<p class="txnTo truncate w15">${txnTo[i]}</p>`;
+      let v = `<p class="txnValue truncate w10">${txnValue[i]+" ETH"}</p>`;
+      spanTime.innerHTML += t;
+      spanHash.innerHTML += h;
+      spanFrom.innerHTML += f;
+      spanTo.innerHTML += to;
+      spanValue.innerHTML += v;
+      spanViewMore.innerHTML += vm;
+    }
+});
+});
+},3000)} else {
+  loading.classList.toggle('closed');
+  alert("Invalid or Incomplete address!");
+}}
+else{
+  loading.classList.toggle('closed');
+  alert("Please select txn type!");
+}}
+else {
+loading.classList.toggle('closed');
+alert("Please select search method!");
+}
+} else {
+alert("Address can't be Empty!");
+loading.classList.toggle('closed');
+}};
+

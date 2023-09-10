@@ -46,7 +46,13 @@ body {
   line-height: 1.2;
   color: #ddd;
 }
-
+.version-container {
+  position: absolute;
+  display: flex;
+  width: 98vw;
+  top: 2%;
+  justify-content: end;
+}
 ul {
   list-style: none;
 }

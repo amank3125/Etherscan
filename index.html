@@ -22,19 +22,19 @@
       <div class="cards__inner">
         <div class="cards__card card">
             <select class="filter-1 card__cta cta">
-                <option  disabled>Please Select</option>
-                <option selected>By Address</option>
+                <option selected disabled>Please Select</option>
+                <option >By Address</option>
                 <option>By Txn Hash</option>
             </select>
             <select class="filter-2 card__cta cta">
-                <option  disabled>Please Select</option>
+                <option selected disabled>Please Select</option>
                 <option >Balance</option>
-                <option selected>Internal Txn</option>
+                <option >Internal Txn</option>
                 <option>ERC-20 Txn</option>
                 <option>ERC-721 Txn</option>
                 <option>ERC-1155 Txn</option>
             </select>
-            <input class="address cta" type="text" placeholder="Your Ethereum Address" maxlength="42" value="0x98d6f0938ab1fDb858d4a77e26aab91a9d308EE2">
+            <input class="address cta" type="text" placeholder="Your Ethereum Address" maxlength="42" value="">
           <p class="card__price"></p>
           <a class="search card__cta cta" onclick="whatToDo()">Search</a>
         </div>
@@ -57,38 +57,22 @@
   <h2 class="balance"></h2>
 
   <!-- Txn Statement Table -->
-  <div class="statement closed" >
-  <div class="table table-headings">
-    <h4>Time</h4>
-    <h4>Txn Hash</h4>
-    <h4>From</h4>
-    <h4>To</h4>
-    <h4>Value</h4>
-    <h4>View More</h4>
-  </div>
-  <div class="table result-table">
-    <div class="row timestampRow">
-      <span class="txnTimeList truncate w10"></span>
-    </div>
-    <div class="row txnHashRow">
-      <span class="txnHashList truncate w15 last"></span>
-    </div>
-    <div class="row fromRow">
-      <span class="txnFromList last"></span>
-
-    </div>
-    <div class="row toRow ">
-      <span class="txnToList last"></span>
-
-    </div>
-    <div class="row valueRow">
-      <span class="txnValueList"></span>
-
-    </div>
-    <div class="row viewMoreRow">
-      <span class="txnViewMoreList"></span>
-
-    </div>
+  <div class="table statement result-table closed">
+    <table class="transactionTable" id="transactionTable">
+      <thead></thead>
+      <div class="statement" ><thead></thead>
+        <h3 class="count"></h3>
+        <div class="table table-headings">
+          <h4>Block</h4>
+          <h4>Time</h4>
+          <h4>Txn Hash</h4>
+          <h4>From</h4>
+          <h4>To</h4>
+          <h4>Value</h4>
+        </div>
+      <tbody class="table-body truncate" id="table-body">
+      </tbody>
+  </table>
   </div>
 </div>
 </div>

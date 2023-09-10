@@ -94,8 +94,12 @@ fetch(ethURL)
 function whatToDo(){
       if(filter2.value=='Balance'){
         getBalanceOf();
+        if (counter!==0){results.classList.toggle('closed')};
+        if (counter!==0){statement.classList.remove('closed')};
       } else if(filter2.value=='Internal Txn'){
         getTransactionsOf();
+        if (counter!==0){results.classList.remove('closed')};
+        if (counter!==0){statement.classList.toggle('closed')};
       } else if(filter2.value=='ERC-20 Txn'){
         alert('ERC-20 Txn Search is Coming Soon 😴');
       } else if(filter2.value=='ERC-1155 Txn'){
@@ -174,7 +178,6 @@ function closePopup(e){
         networkImg2.src = Object.values(networksImages[e]);
         popUpContainer.classList.toggle('closed');
         popUp.classList.toggle('closed');
-        usdValue.innerHTML = 0;
         mainHeading.innerHTML = Object.keys(network[e]);
         getETHPrice();
     }else {
@@ -227,58 +230,39 @@ function getTransactionsOf(){
         if (address.value.slice(0,2)=="0x"&&address.value.length==42){  
           if(balance.innerHTML==0){balanceLoader.classList.remove('closed');} else {balanceLoader.classList.add('closed');}
     setTimeout(function(){
-      fetch(`https://api.etherscan.io/api?module=account&action=txlist&address=${address.value}&startblock=0&endblock=99999999&page=1&offset=1000&sort=desc&apikey=${apiKeyETH}`)
-      .then(response=> response.json())
-      .then(data=>{
+      fetch("https://api.etherscan.io/api?module=account&action=txlist&address=0x98d6f0938ab1fDb858d4a77e26aab91a9d308EE2&startblock=0&endblock=99999999&page=1&offset=1000&sort=desc&apikey=XQR4IDXVRCA1FJBWA6THZPJNJ7DFP22YFK")
+      .then(response => response.json())
+      .then((data) => {
+        var count = document.querySelector('.count');
+        const transactionTable = document.getElementById("transactionTable");
+        const tbody = transactionTable.getElementsByTagName("tbody")[0];
+      // console.log(data.result);   
+        data.result.forEach(transaction => {
+        const row = tbody.insertRow();
+        const blockNumberCell = row.insertCell(0);
+        const timestampCell = row.insertCell(1);
+        const hashCell = row.insertCell(2);
+        const fromCell = row.insertCell(3);
+        const toCell = row.insertCell(4);
+        const valueCell = row.insertCell(5);
+        counter++;
+        count.innerHTML = 'Total Number of Transactions: '+counter;
+        blockNumberCell.innerHTML = transaction.blockNumber;
+        timestampCell.innerHTML = new Date(transaction.timeStamp * 1000).toLocaleString();
+        hashCell.innerHTML = `<a href="https://etherscan.io/tx/${transaction.hash}" target="_blank">${transaction.hash}</a>`;
+        fromCell.innerHTML = transaction.from;
+        toCell.innerHTML = transaction.to;
+        valueCell.innerHTML = (transaction.value / 1e18).toFixed(4); // Convert Wei to ETH and round to 4 decimal places
+       });
+      }).catch(error => console.error(error));
     results.classList.add('show');
     statement.classList.add('show');
-    loading.classList.toggle('show');
+    loading.classList.toggle('closed');
     setTimeout(function(){
       balanceLoader.classList.toggle('closed');
     },100);
-
-  let transactions = data.result;
-  let txnTime = [];
-  let txnHash = [];
-  let txnFrom = [];
-  let txnTo = [];
-  let txnValue = [];
-  Object.values(transactions).forEach((txns)=>{
-    txnTime.push(txns.timeStamp);
-    txnHash.push(txns.hash);
-    txnFrom.push(txns.from);
-    txnTo.push(txns.to);
-    txnValue.push((txns.value/Math.pow(10,18)).toFixed(3));
-    let spanTime = document.querySelector('.txnTimeList');
-    let spanHash = document.querySelector('.txnHashList');
-    let spanFrom = document.querySelector('.txnFromList');
-    let spanTo = document.querySelector('.txnToList');
-    let spanValue = document.querySelector('.txnValueList');
-    let spanViewMore = document.querySelector('.txnViewMoreList');
-    console.log(txnTime);
-    // var timestamp = data.result[0].timeStamp;
-    // var datetime = new Date(timestamp*1000);
-    for(i=0;i<5;i++){
-      if(txnTime[i]==undefined){
-        continue;
-      }
-      var datetime = new Date(txnTime[i]*1000);
-      let t = `<p class="txnTime truncate w10 tleft">${datetime.toDateString()+" "+datetime.toLocaleTimeString()}</p>`;
-      let h = `<p class="txnHash truncate w25">${txnHash[i]}</p>`;
-      let vm = `<button class="view-moreBtn"><a class="view-moreBtn-label" href="https://etherscan.io/tx/${txnHash[i]}" target="_blank">View</a></button>`;
-      let f = `<p class="txnFrom truncate w15">${txnFrom[i]}</p>`;
-      let to = `<p class="txnTo truncate w15">${txnTo[i]}</p>`;
-      let v = `<p class="txnValue truncate w10">${txnValue[i]+" ETH"}</p>`;
-      spanTime.innerHTML += t;
-      spanHash.innerHTML += h;
-      spanFrom.innerHTML += f;
-      spanTo.innerHTML += to;
-      spanValue.innerHTML += v;
-      spanViewMore.innerHTML += vm;
-    }
-});
-});
-},3000)} else {
+},3000);
+} else {
   loading.classList.toggle('closed');
   alert("Invalid or Incomplete address!");
 }}

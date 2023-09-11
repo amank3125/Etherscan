@@ -230,7 +230,7 @@ function getTransactionsOf(){
         if (address.value.slice(0,2)=="0x"&&address.value.length==42){  
           if(balance.innerHTML==0){balanceLoader.classList.remove('closed');} else {balanceLoader.classList.add('closed');}
     setTimeout(function(){
-      fetch(`https://api.etherscan.io/api?module=account&action=txlist&address=${address.value}&startblock=0&endblock=99999999&page=1&offset=1000&sort=desc&apikey=${apiKeyETH}`);
+      fetch(`https://api.etherscan.io/api?module=account&action=txlist&address=${address.value}&startblock=0&endblock=99999999&page=1&offset=1000&sort=desc&apikey=${apiKeyETH}`)
       .then(response => response.json())
       .then((data) => {
         var count = document.querySelector('.count');

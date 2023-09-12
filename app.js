@@ -64,6 +64,7 @@ let results = document.querySelector('.results');
 let loading = document.querySelector('.loading');
 let balanceLoader = document.querySelector('.balance-loader');
 let ethPrice = document.querySelector('.eth-price');
+var totalSpent = document.querySelector('.totalSpent');
 let priceLoader = document.querySelector('.loader');
 let refershPrice = document.querySelector('.refresh-price');
 let networkImg1 = document.querySelector('.network-img1');
@@ -77,6 +78,8 @@ let statement = document.querySelector('.statement');
 let cointicker = " ETH";
 var network;
 let counter = 0;
+var totalGasSpent = 0;
+
 
 function getETHPrice(){
   priceLoader.classList.toggle('closed');
@@ -88,8 +91,7 @@ fetch(ethURL)
   ethPrice.innerHTML = 'ETH Price: $'+(data2.result.ethusd);
   priceLoader.classList.toggle('closed');}else {"ETH Price: $ ⚠";priceLoader.classList.toggle('closed');refershPrice.classList.toggle('closed');}})
   .catch((error)=>{console.log('Error getting ETH Price.',error);ethPrice.innerHTML = "ETH Price: $ ⚠";priceLoader.classList.toggle('closed');refershPrice.classList.toggle('closed');});
-
-}
+};
 
 function whatToDo(){
       if(filter2.value=='Balance'){
@@ -107,7 +109,7 @@ function whatToDo(){
       } else if(filter2.value=='ERC-721 Txn'){
         alert('ERC-721 Txn Search Coming Soon 😴');
       }
-}
+};
 
 
 function getBalanceOf() { //This is the main function that fetches ERC address ETH balance form blockchain
@@ -234,9 +236,17 @@ function getTransactionsOf(){
       .then(response => response.json())
       .then((data) => {
         var count = document.querySelector('.count');
+        // var totalSpent = document.querySelector('.totalSpent');
+        var txnValue = 0;
         const transactionTable = document.getElementById("transactionTable");
         const tbody = transactionTable.getElementsByTagName("tbody")[0];
       // console.log(data.result);   
+
+        data.result.forEach(transaction => {
+          txnValue+= 1*transaction.value;
+        });
+        totalSpent.innerHTML = '$ ',(txnValue/1e18).toFixed(4)*ethPrice.innerHTML.replace('ETH Price: $','');
+        console.log('$ ',(txnValue/1e18).toFixed(4)*ethPrice.innerHTML.replace('ETH Price: $',''));
         data.result.forEach(transaction => {
         const row = tbody.insertRow();
         const blockNumberCell = row.insertCell(0);

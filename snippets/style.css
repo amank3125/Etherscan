@@ -1,0 +1,51 @@
+.grid {
+    /* border: 1px solid black; */
+    margin-top: 5%;
+    padding: 5%;
+    display: grid;
+    height: 70vh;
+    width: 50%;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    row-gap: 20px;
+    column-gap: 20px;
+    font-family: 'Trebuchet MS';
+}
+.nft {
+    border: 1px solid rgb(233, 233, 233);
+    border-radius: 10px;
+    transition: 0.5s ease-in-out;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    padding: 15px;
+    flex-direction: column;
+}
+.nft:hover{
+    box-shadow: 0px 15px 20px 20px rgba(225, 225, 225, 0.2);
+}
+.nft img {
+    height: 100px;
+    transition: 0.3s ease-in-out all;
+    border-radius: 50%;
+    border: 1px solid rgb(58, 58, 58);
+    box-shadow: 0px 15px 20px 10px rgba(139, 143, 255, 0.1);
+}
+.nft img:hover {
+    transform: scale(1.1);
+}
+.truncate {
+    width: 150px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.clamp {
+    display: -webkit-box;   
+    -webkit-line-clamp: 2;   
+    -webkit-box-orient: vertical;     
+    overflow: hidden; 
+}
+.nft_name {
+    font-size: 22px;
+}

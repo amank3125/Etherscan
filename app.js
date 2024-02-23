@@ -88,7 +88,8 @@ const ethURL = 'https://api.etherscan.io/api?module=stats&action=ethprice'
 fetch(ethURL)
 .then(response=>response.json())
 .then((data2)=>{ if(data2.result.ethusd!=undefined){
-  ethPrice.innerHTML = 'ETH Price: $'+(data2.result.ethusd);
+  console.log(Number(data2.result.ethusd).toFixed(2));
+  ethPrice.innerHTML = `ETH Price: $${Number(data2.result.ethusd).toFixed(2)}`;
   priceLoader.classList.toggle('closed');}else {"ETH Price: $ ⚠";priceLoader.classList.toggle('closed');refershPrice.classList.toggle('closed');}})
   .catch((error)=>{console.log('Error getting ETH Price.',error);ethPrice.innerHTML = "ETH Price: $ ⚠";priceLoader.classList.toggle('closed');refershPrice.classList.toggle('closed');});
 };

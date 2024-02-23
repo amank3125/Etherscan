@@ -31,12 +31,7 @@
   padding: 0;
 }
 
-html,
-body {
-  height: 100%;
-  min-height: 100vh;
-  background-color: #1e1e1e;
-}
+
 
 body {
   display: grid;
@@ -45,6 +40,11 @@ body {
   font-size: 1.1rem;
   line-height: 1.2;
   color: #ddd;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  margin: 0;
+  background-color: #1e1e1e;
 }
 .version-container {
   position: absolute;
@@ -57,7 +57,7 @@ ul {
   list-style: none;
 }
 
-.main {
+.main{
   max-width: 75rem;
   padding: 3em 1.5em;
 }
@@ -114,9 +114,11 @@ ul {
     justify-content: center;
     align-items: center;
     backdrop-filter: blur(15px);
-    width: 100%;
-    height: 100%;
-    background:#0000002a ;
+    width: 100vw !important;
+    height: 100vh !important;
+    padding-block: 30px;
+    background:#0000002a;
+    z-index: 999;
 }
 .pop-up {
     border: #eceff133 1px solid;
@@ -124,6 +126,8 @@ ul {
     padding: 20px;
     background-color: #2b2b2b;
     position: fixed;
+    min-width: 10%;
+    font-size: 0.7em;
     transition: 0.3s all ease-in-out;
 }
 .close-popup {
@@ -166,7 +170,7 @@ ul {
   flex: 1 1 14rem;
   padding: 1.5em 2em;
   display: grid;
-  width: 400px;
+  min-width: 350px;
   grid-template-rows: auto auto auto 1fr;
   align-items: start;
   gap: 1.25em;
@@ -301,6 +305,7 @@ ul {
 }
 
 .eth-price {
+  font-size: 1rem;
   text-align: right;
   padding-right: 10px;
 }
@@ -444,4 +449,10 @@ a:hover {
 tbody td {
   padding-inline: 11px;
   border-right: 1px solid #eceff133;
+}
+@media screen and (max-width: 480px) {
+  .pop-up-container {
+    width: 100%;
+    height: 100%;
+  }
 }
